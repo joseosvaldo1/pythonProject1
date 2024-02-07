@@ -12,6 +12,7 @@ from tkinter import messagebox
 import hashlib
 import string
 import random
+import pyperclip
 
 def generate_password():
     key1 = key1_entry.get()
@@ -20,7 +21,7 @@ def generate_password():
     size = size_var.get()
 
     if not (key1 and key2 and ref and size):
-        messagebox.showinfo("Erro", "Please fill in all fields.")
+        messagebox.showinfo("Error", "Please fill in all fields.")
         return
 
     hash_object = hashlib.sha256((key1 + key2 + ref).encode())
@@ -33,9 +34,13 @@ def generate_password():
 
     password_label.config(text=password)
 
+def copy_password():
+    password = password_label.cget("text")
+    pyperclip.copy(password)
+
 root = tk.Tk()
 root.title("Password Generator")
-root.geometry("300x250")  # Sets the size of the application window
+root.geometry("300x280")  # Sets the size of the application window
 
 key1_label = tk.Label(root, text="Key 1:")
 key1_label.pack()
@@ -62,5 +67,11 @@ generate_button.pack()
 password_label = tk.Label(root, text="")
 password_label.pack()
 
+copy_button = tk.Button(root, text="Copy Password", command=copy_password)
+copy_button.pack()
+
 root.mainloop()
+
+
+
 
